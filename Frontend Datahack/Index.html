@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafePass - Control de Accesos</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" href="Imagenes/user-check-solid.svg">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-user-check fa-2x"></i>
+                <span>SafePass</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#inicio"><i class="fas fa-home fa-lg"></i> <span>Inicio</span></a></li>
+                <li><a href="#camaras"><i class="fas fa-video fa-lg"></i> <span>Cámaras</span></a></li>
+                <li><a href="#ingreso-salida"><i class="fas fa-door-open fa-lg"></i> <span>Ingreso/Salida</span></a></li>
+                <li><a href="#registro"><i class="fas fa-user-plus fa-lg"></i> <span>Registro Visitantes</span></a></li>
+                <li><a href="#estadisticas"><i class="fas fa-chart-bar fa-lg"></i> <span>Estadísticas</span></a></li>
+                <li><a href="#advertencias"><i class="fas fa-exclamation-triangle fa-lg"></i> <span>Advertencias</span></a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search fa-lg"></i>
+                    <input type="text" placeholder="Buscar...">
+                </div>
+                <div class="user-info">
+                    <div class="notifications">
+                        <i class="fas fa-bell fa-2x"></i>
+                        <span class="notification-badge">3</span>
+                        <div class="notifications-panel" style="display: none;">
+                            <div class="notifications-header">
+                                <span>Notificaciones</span>
+                                <button class="close-notifications"><i class="fas fa-times"></i></button>
+                            </div>
+                            <ul class="notifications-list">
+                                <li class="notification-item unread">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Acceso no autorizado en Edificio C
+                                    <span class="notification-time">hace 2 min</span>
+                                </li>
+                                <li class="notification-item">
+                                    <i class="fas fa-user-plus"></i>
+                                    Nuevo visitante registrado
+                                    <span class="notification-time">hace 10 min</span>
+                                </li>
+                                <li class="notification-item">
+                                    <i class="fas fa-door-open"></i>
+                                    Puerta principal abierta
+                                    <span class="notification-time">hace 30 min</span>
+                                </li>
+                            </ul>
+                            <button class="mark-all-read">Marcar todo como leído</button>
+                        </div>
+                    </div>
+                    <div class="user-profile">
+                        <img src="imagenes/usuario.png" alt="Usuario">
+                        <span>Admin</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Vista de Advertencias -->
+            <div class="view-section" id="advertencias" style="display: none;">
+                <div class="warnings-view">
+                    <h1>Advertencias</h1>
+                    <div class="warnings-content">
+                        <!-- Contador de personas -->
+                        <div class="total-people-warning">
+                            <h2>Personas en la instalación</h2>
+                            <div class="total-people-counter">
+                                <span class="counter-number">1,234</span>
+                                <span class="counter-label">personas actualmente</span>
+                                <div class="counter-trend up">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>5% desde ayer</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cámaras de seguimiento -->
+                        <div class="tracking-cameras">
+                            <h3>Cámaras de Seguimiento</h3>
+                            <div class="cameras-grid-tracking">
+                                <div class="camera-tracking-item">
+                                    <div class="camera-feed">
+                                        <img src="Imagenes/camara1.jpg" alt="Cámara de seguimiento 1">
+                                        <div class="camera-overlay">
+                                            <span class="camera-name">Entrada Principal</span>
+                                            <span class="camera-status tracking">SEGUIMIENTO</span>
+                                        </div>
+                                    </div>
+                                    <div class="camera-info">
+                                        <span class="tracking-count">2 personas en seguimiento</span>
+                                        <span class="last-update">Última actualización: hace 30s</span>
+                                    </div>
+                                </div>
+                                <div class="camera-tracking-item">
+                                    <div class="camera-feed">
+                                        <img src="Imagenes/camara2.jpg" alt="Cámara de seguimiento 2">
+                                        <div class="camera-overlay">
+                                            <span class="camera-name">Biblioteca</span>
+                                            <span class="camera-status tracking">SEGUIMIENTO</span>
+                                        </div>
+                                    </div>
+                                    <div class="camera-info">
+                                        <span class="tracking-count">1 persona en seguimiento</span>
+                                        <span class="last-update">Última actualización: hace 45s</span>
+                                    </div>
+                                </div>
+                                <div class="camera-tracking-item">
+                                    <div class="camera-feed">
+                                        <img src="Imagenes/camara3.jpg" alt="Cámara de seguimiento 3">
+                                        <div class="camera-overlay">
+                                            <span class="camera-name">Cafetería</span>
+                                            <span class="camera-status tracking">SEGUIMIENTO</span>
+                                        </div>
+                                    </div>
+                                    <div class="camera-info">
+                                        <span class="tracking-count">3 personas en seguimiento</span>
+                                        <span class="last-update">Última actualización: hace 15s</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tabla de advertencias -->
+                        <div class="warnings-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Foto</th>
+                                        <th>Hora de Detección</th>
+                                        <th>Ubicación Actual</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><img src="imagenes/persona1.jpg" alt="Persona no registrada"></td>
+                                        <td>09:45 AM</td>
+                                        <td>Biblioteca Central</td>
+                                        <td><span class="status-badge warning">En seguimiento</span></td>
+                                        <td>
+                                            <button class="action-btn" title="Ver detalles"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn" title="Registrar persona"><i class="fas fa-user-plus"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="imagenes/persona2.jpg" alt="Persona no registrada"></td>
+                                        <td>10:15 AM</td>
+                                        <td>Cafetería Principal</td>
+                                        <td><span class="status-badge warning">En seguimiento</span></td>
+                                        <td>
+                                            <button class="action-btn" title="Ver detalles"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn" title="Registrar persona"><i class="fas fa-user-plus"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="imagenes/persona3.jpg" alt="Persona no registrada"></td>
+                                        <td>10:30 AM</td>
+                                        <td>Edificio de Ingeniería</td>
+                                        <td><span class="status-badge warning">En seguimiento</span></td>
+                                        <td>
+                                            <button class="action-btn" title="Ver detalles"><i class="fas fa-eye"></i></button>
+                                            <button class="action-btn" title="Registrar persona"><i class="fas fa-user-plus"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista de Inicio -->
+            <div class="view-section" id="inicio">
+                <div class="dashboard">
+                    <div class="dashboard-header">
+                        <h1>Panel de Control</h1>
+                        <div class="date-filter">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span class ="actual-time"></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Grid de recuadros -->
+                    <div class="dashboard-grid">
+                        <!-- Advertencias -->
+                        <div class="dashboard-card warning-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-exclamation-circle fa-lg"></i> Advertencias</h3>
+                                <span class="card-badge">2 nuevas</span>
+                            </div>
+                            <div class="warning-content">
+                                <div class="total-people">
+                                    <h4>Personas en la instalación</h4>
+                                    <p class="big-number">1,234</p>
+                                    <div class="trend-indicator up">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>5% desde ayer</span>
+                                    </div>
+                                </div>
+                                <div class="alerts-list">
+                                    <div class="alert-item critical">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        <div class="alert-content">
+                                            <h4>Acceso no autorizado</h4>
+                                            <p>Edificio C - 09:45 AM</p>
+                                            <span class="alert-tag">Crítico</span>
+                                        </div>
+                                    </div>
+                                    <div class="alert-item warning">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        <div class="alert-content">
+                                            <h4>Alto tráfico en Biblioteca</h4>
+                                            <p>Capacidad al 85% - 10:30 AM</p>
+                                            <span class="alert-tag">Advertencia</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cámaras -->
+                        <div class="dashboard-card camera-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-video fa-lg"></i> Cámaras en Vivo</h3>
+                                <div class="camera-controls">
+                                    <button id="open-cameras" class="control-btn"><i class="fas fa-expand"></i></button>
+                                    <button class="control-btn"><i class="fas fa-sync-alt"></i></button>
+                                </div>
+                            </div>
+                            <div class="cameras-grid">
+                                <div class="camera-item">
+                                    <div class="camera-feed">
+                                        <img src="Imagenes/camara1.jpg" alt="Cámara 1">
+                                        <div class="camera-overlay">
+                                            <span class="camera-name">Entrada Principal</span>
+                                            <span class="camera-status live">EN VIVO</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="camera-item">
+                                    <div class="camera-feed">
+                                        <img src="Imagenes/camara2.jpg" alt="Cámara 2">
+                                        <div class="camera-overlay">
+                                            <span class="camera-name">Bloque 6</span>
+                                            <span class="camera-status live">EN VIVO</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="camera-item">
+                                    <div class="camera-feed">
+                                        <img src="Imagenes/camara3.jpg" alt="Cámara 3">
+                                        <div class="camera-overlay">
+                                            <span class="camera-name">Biblioteca</span>
+                                            <span class="camera-status live">EN VIVO</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Estadísticas -->
+                        <div class="dashboard-card stats-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-line fa-lg"></i> Estadísticas</h3>
+                                <div class="time-filter">
+                                    <button class="active">Día</button>
+                                    <button>Semana</button>
+                                    <button>Mes</button>
+                                </div>
+                            </div>
+                            <div class="stats-content">
+                                <div class="chart-container">
+                                    <canvas id="visitorsChart"></canvas>
+                                </div>
+                                <div class="top-locations">
+                                    <h4>Lugares más concurridos</h4>
+                                    <ul>
+                                        <li>
+                                            <span class="location-name">Biblioteca</span>
+                                            <span class="location-count">234 personas</span>
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: 85%"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="location-name">Cafetería</span>
+                                            <span class="location-count">189 personas</span>
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: 65%"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="location-name">Laboratorio A</span>
+                                            <span class="location-count">156 personas</span>
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: 45%"></div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ingresos y Salidas -->
+                        <div class="dashboard-card access-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-door-open fa-lg"></i> Ingresos y Salidas</h3>
+                                <span class="card-badge">Actualizado hace 5 min</span>
+                            </div>
+                            <div class="access-content">
+                                <div class="gate-stats">
+                                    <div class="gate-item">
+                                        <h4><i class="fas fa-compass"></i> Portería Norte</h4>
+                                        <div class="gate-numbers">
+                                            <div class="number-group">
+                                                <span class="label">Ingresos</span>
+                                                <span class="entry">↑ 234</span>
+                                            </div>
+                                            <div class="number-group">
+                                                <span class="label">Salidas</span>
+                                                <span class="exit">↓ 189</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="gate-item">
+                                        <h4><i class="fas fa-compass"></i> Portería Sur</h4>
+                                        <div class="gate-numbers">
+                                            <div class="number-group">
+                                                <span class="label">Ingresos</span>
+                                                <span class="entry">↑ 156</span>
+                                            </div>
+                                            <div class="number-group">
+                                                <span class="label">Salidas</span>
+                                                <span class="exit">↓ 123</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="gate-item">
+                                        <h4><i class="fas fa-compass"></i> Portería Este</h4>
+                                        <div class="gate-numbers">
+                                            <div class="number-group">
+                                                <span class="label">Ingresos</span>
+                                                <span class="entry">↑ 98</span>
+                                            </div>
+                                            <div class="number-group">
+                                                <span class="label">Salidas</span>
+                                                <span class="exit">↓ 87</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="gate-item">
+                                        <h4><i class="fas fa-compass"></i> Portería Oeste</h4>
+                                        <div class="gate-numbers">
+                                            <div class="number-group">
+                                                <span class="label">Ingresos</span>
+                                                <span class="entry">↑ 145</span>
+                                            </div>
+                                            <div class="number-group">
+                                                <span class="label">Salidas</span>
+                                                <span class="exit">↓ 132</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Registro de Visitantes -->
+                        <div class="dashboard-card visitors-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-users fa-lg"></i> Registro de Visitantes</h3>
+                                <button class="add-visitor-btn">
+                                    <i class="fas fa-plus"></i> Nuevo Visitante
+                                </button>
+                            </div>
+                            <div class="visitors-content">
+                                <div class="visitors-list">
+                                    <div class="visitor-item">
+                                        <img src="imagenes/escanear-usuario.png" alt="Visitante">
+                                        <div class="visitor-info">
+                                            <h4>Juan Pérez</h4>
+                                            <p><i class="fas fa-clock"></i> Entrada: 09:30 AM</p>
+                                            <span class="visitor-badge">En instalación</span>
+                                        </div>
+                                    </div>
+                                    <div class="visitor-item">
+                                        <img src="imagenes/escanear-usuario.png" alt="Visitante">
+                                        <div class="visitor-info">
+                                            <h4>María García</h4>
+                                            <p><i class="fas fa-clock"></i> Entrada: 10:15 AM</p>
+                                            <span class="visitor-badge">En instalación</span>
+                                        </div>
+                                    </div>
+                                    <div class="visitor-item">
+                                        <img src="imagenes/escanear-usuario.png" alt="Visitante">
+                                        <div class="visitor-info">
+                                            <h4>Carlos López</h4>
+                                            <p><i class="fas fa-clock"></i> Entrada: 11:00 AM</p>
+                                            <span class="visitor-badge">En instalación</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista de Cámaras -->
+            <div class="view-section" id="camaras" style="display: none;">
+                <div class="cameras-view">
+                    <div class="cameras-header">
+                        <h1>Cámaras de Seguridad</h1>
+                        <div class="cameras-filter">
+                            <button class="filter-btn active">Todas</button>
+                            <button class="filter-btn">Concurridas</button>
+                            <button class="filter-btn">Con alertas</button>
+                        </div>
+                    </div>
+                    <div class="cameras-grid">
+                        <!-- Cámaras con estado normal -->
+                        <div class="camera-box" data-camera-id="1">
+                            <div class="camera-preview">
+                                <img src="Imagenes/camara1.jpg" alt="Cámara 1">
+                                <div class="camera-overlay">
+                                    <span class="camera-name">Entrada Principal</span>
+                                    <span class="camera-status live">EN VIVO</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Repetir para las 14 cámaras -->
+                        <div class="camera-box crowded" data-camera-id="2">
+                            <div class="camera-preview">
+                                <img src="Imagenes/camara2.jpg" alt="Cámara 2">
+                                <div class="camera-overlay">
+                                    <span class="camera-name">Biblioteca</span>
+                                    <span class="camera-status live">EN VIVO</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ... Agregar el resto de las cámaras ... -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista de Ingreso/Salida -->
+            <div class="view-section" id="ingreso-salida" style="display: none;">
+                <div class="access-view">
+                    <h1>Control de Ingreso/Salida</h1>
+                    <div class="access-content">
+                        <div class="gate-cameras">
+                            <div class="gate-item">
+                                <div class="gate-camera">
+                                    <img src="Imagenes/camara1.jpg" alt="Portería Pilarica">
+                                    <div class="gate-overlay">
+                                        <span class="gate-name">Portería Pilarica</span>
+                                    </div>
+                                </div>
+                                <div class="gate-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-label">Ingresos</span>
+                                        <span class="stat-value entry">234</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Salidas</span>
+                                        <span class="stat-value exit">189</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="gate-item">
+                                <div class="gate-camera">
+                                    <img src="Imagenes/camara1.jpg" alt="Portería Peatonal">
+                                    <div class="gate-overlay">
+                                        <span class="gate-name">Portería Peatonal</span>
+                                    </div>
+                                </div>
+                                <div class="gate-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-label">Ingresos</span>
+                                        <span class="stat-value entry">156</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Salidas</span>
+                                        <span class="stat-value exit">123</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="gate-item">
+                                <div class="gate-camera">
+                                    <img src="Imagenes/camara1.jpg" alt="Portería Vehicular">
+                                    <div class="gate-overlay">
+                                        <span class="gate-name">Portería Vehicular</span>
+                                    </div>
+                                </div>
+                                <div class="gate-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-label">Ingresos</span>
+                                        <span class="stat-value entry">98</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Salidas</span>
+                                        <span class="stat-value exit">87</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista de Registro de Visitantes -->
+            <div class="" id="registro" style="display: none;">
+                <div class="visitors-view-custom">
+                    <div class="visitors-header-custom">
+                        <div class="visitors-title-box">
+                            <span>REGISTRO DE VISITANTES</span>
+                        </div>
+                        <div class="search-bar-custom">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Buscar visitante..." class="visitor-search-custom">
+                        </div>
+                    </div>
+                    <div class="visitors-main-content">
+                        <div class="visitors-list-card">
+                            <div class="visitor-card">
+                                <div class="visitor-main-info">
+                                    <div class="visitor-name">Persona A</div>
+                                    <button class="add-btn"><i class="fas fa-plus"></i></button>
+                                </div>
+                                <div class="visitor-extra-info" style="display:none;">
+                                    <div class="visitor-field"><b>Nombre:</b> <span class="visitor-nombre">Persona A</span></div>
+                                    <div class="visitor-field"><b>Cédula:</b> <span class="visitor-cedula">12345678</span></div>
+                                    <div class="visitor-field">
+                                        <b>Motivo:</b> <button class="motivo-visita-btn">Seleccionar motivo</button>
+                                        <span class="motivo-seleccionado"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="visitor-card">
+                                <div class="visitor-main-info">
+                                    <div class="visitor-name">Persona B</div>
+                                    <button class="add-btn"><i class="fas fa-plus"></i></button>
+                                </div>
+                                <div class="visitor-extra-info" style="display:none;">
+                                    <div class="visitor-field"><b>Nombre:</b> <span class="visitor-nombre">Persona B</span></div>
+                                    <div class="visitor-field"><b>Cédula:</b> <span class="visitor-cedula">87654321</span></div>
+                                    <div class="visitor-field">
+                                        <b>Motivo:</b> <button class="motivo-visita-btn">Seleccionar motivo</button>
+                                        <span class="motivo-seleccionado"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="visitor-card">
+                                <div class="visitor-main-info">
+                                    <div class="visitor-name">Persona C</div>
+                                    <button class="add-btn"><i class="fas fa-plus"></i></button>
+                                </div>
+                                <div class="visitor-extra-info" style="display:none;">
+                                    <div class="visitor-field"><b>Nombre:</b> <span class="visitor-nombre">Persona C</span></div>
+                                    <div class="visitor-field"><b>Cédula:</b> <span class="visitor-cedula">56789012</span></div>
+                                    <div class="visitor-field">
+                                        <b>Motivo:</b> <button class="motivo-visita-btn">Seleccionar motivo</button>
+                                        <span class="motivo-seleccionado"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="visitor-card">
+                                <div class="visitor-main-info">
+                                    <div class="visitor-name">Persona D</div>
+                                    <button class="add-btn"><i class="fas fa-plus"></i></button>
+                                </div>
+                                <div class="visitor-extra-info" style="display:none;">
+                                    <div class="visitor-field"><b>Nombre:</b> <span class="visitor-nombre">Persona D</span></div>
+                                    <div class="visitor-field"><b>Cédula:</b> <span class="visitor-cedula">21098765</span></div>
+                                    <div class="visitor-field">
+                                        <b>Motivo:</b> <button class="motivo-visita-btn">Seleccionar motivo</button>
+                                        <span class="motivo-seleccionado"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="visitors-summary-card">
+                            <div class="summary-title">Visitantes en la instalación:</div>
+                            <div class="summary-number">50</div>
+                            <div class="summary-lugares">
+                                <div class="lugares-title">Lugar más concurrido por los visitantes</div>
+                                <div class="lugar-option active"><span class="radio"></span> Auditorio</div>
+                                <div class="lugar-option"><span class="radio"></span> Porteria peatonal</div>
+                                <div class="lugar-option"><span class="radio"></span> Cafeteria bloque 27</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="visitors-footer">
+                        <button class="add-visitor-btn"><i class="fas fa-user-plus"></i> Agregar visitante</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de Registro de Visitante -->
+            <div class="modal" id="visitorModal">
+                <div class="modal-content">
+                    <h2>Registro de Nuevo Visitante</h2>
+                    <form id="visitorForm">
+                        <div class="form-group">
+                            <label>Nombre completo</label>
+                            <input type="text" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Número de cédula</label>
+                            <input type="text" required>
+                            <button type="button" class="scan-btn">
+                                <i class="fas fa-camera"></i> Escanear cédula
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <label>Foto de rostro</label>
+                            <div class="photo-capture">
+                                <i class="fas fa-camera"></i>
+                                <span>Tomar foto</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Huella digital</label>
+                            <div class="fingerprint-capture">
+                                <i class="fas fa-fingerprint"></i>
+                                <span>Capturar huella</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Motivo de visita</label>
+                            <select id="visitReason" required>
+                                <option value="">Seleccionar motivo</option>
+                                <option value="evento">Evento</option>
+                                <option value="familiar">Familiar</option>
+                                <option value="reunion">Reunión</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                            <div id="otherReason" style="display: none;">
+                                <input type="text" placeholder="Especifique el motivo">
+                            </div>
+                        </div>
+                        <div class="modal-buttons">
+                            <button type="submit" class="submit-btn">Terminar registro</button>
+                            <button type="button" class="cancel-btn">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Modal de Motivo de Visita -->
+            <div class="modal" id="motivoModal" style="display:none;">
+                <div class="modal-content motivo-modal-content">
+                    <h2>Selecciona el motivo de visita</h2>
+                    <div class="motivo-options-list">
+                        <button class="motivo-option-btn" data-value="Evento">Evento</button>
+                        <button class="motivo-option-btn" data-value="Familiar">Familiar</button>
+                        <button class="motivo-option-btn" data-value="Reunión">Reunión</button>
+                        <button class="motivo-option-btn" data-value="Otro">Otro</button>
+                    </div>
+                    <div class="motivo-other-box" style="display:none; margin-bottom: 18px;">
+                        <input type="text" class="motivo-other-input" placeholder="Escribe el motivo..." style="width: 90%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem;">
+                    </div>
+                    <button class="confirm-motivo-btn" style="margin-bottom: 10px; background: #27AE60; color: #fff; border: none; border-radius: 10px; padding: 10px 30px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background 0.2s;">Confirmar</button>
+                    <button class="close-motivo-modal">Cancelar</button>
+                </div>
+            </div>
+
+            <!-- Vista de Estadísticas -->
+            <div class="view-section" id="estadisticas" style="display: none;">
+                <div class="stats-view">
+                    <h1>Estadísticas</h1>
+                    <div class="stats-header">
+                    <div class="stats-content">
+                            <div class="stats-filter">
+                                <button class="stats-btn active" data-period="today">Estadísticas de hoy</button>
+                                <button class="stats-btn" data-period="month">Estadísticas del mes</button>
+                              </div>
+                              <div class="date-selector">
+                                  <i class="fas fa-calendar-alt"></i>
+                                  <span class="current-date"></span>
+                              </div>
+                        </div>
+                      </div>
+                        
+                        <div class="stats-summary">
+                            <div class="summary-card">
+                                <div class="summary-icon">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                </div>
+                                <div class="summary-info">
+                                    <h3>Total de Ingresos</h3>
+                                    <div class="summary-value">1,234</div>
+                                    <div class="summary-trend up">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>5% desde ayer</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="summary-card">
+                                <div class="summary-icon">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </div>
+                                <div class="summary-info">
+                                    <h3>Total de Salidas</h3>
+                                    <div class="summary-value">1,189</div>
+                                    <div class="summary-trend down">
+                                        <i class="fas fa-arrow-down"></i>
+                                        <span>2% desde ayer</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="summary-card">
+                                <div class="summary-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="summary-info">
+                                    <h3>Visitantes Registrados</h3>
+                                    <div class="summary-value">45</div>
+                                    <div class="summary-trend up">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span>8% desde ayer</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h3>Flujo de Personas</h3>
+                                <div class="stat-chart">
+                                    <canvas id="flowChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Distribución por Área</h3>
+                                <div class="stat-chart">
+                                    <canvas id="areaChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Horas Pico</h3>
+                                <div class="stat-chart">
+                                    <canvas id="peakHoursChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Tipos de Visitantes</h3>
+                                <div class="stat-chart">
+                                    <canvas id="visitorTypesChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="stats-details">
+                              <div class="details-card">
+                                  <h3>Áreas más Concurridas</h3>
+                                  <div class="details-list">
+                                      <div class="detail-item">
+                                          <span class="detail-name">Biblioteca</span>
+                                          <div class="detail-bar">
+                                              <div class="bar-fill" style="width: 85%"></div>
+                                          </div>
+                                          <span class="detail-value">234 personas</span>
+                                      </div>
+                                      <div class="detail-item">
+                                          <span class="detail-name">Cafetería</span>
+                                          <div class="detail-bar">
+                                              <div class="bar-fill" style="width: 65%"></div>
+                                          </div>
+                                          <span class="detail-value">189 personas</span>
+                                      </div>
+                                      <div class="detail-item">
+                                          <span class="detail-name">Laboratorio A</span>
+                                          <div class="detail-bar">
+                                              <div class="bar-fill" style="width: 45%"></div>
+                                          </div>
+                                          <span class="detail-value">156 personas</span>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                            <div class="stats-details">
+                              <div class="details-card">
+                                  <h3>Estadísticas por Portería</h3>
+                                  <div class="details-list">
+                                      <div class="detail-item">
+                                          <span class="detail-name">Portería Norte</span>
+                                          <div class="detail-stats">
+                                              <span class="stat-entry">↑ 234</span>
+                                              <span class="stat-exit">↓ 189</span>
+                                          </div>
+                                      </div>
+                                      <div class="detail-item">
+                                          <span class="detail-name">Portería Sur</span>
+                                          <div class="detail-stats">
+                                              <span class="stat-entry">↑ 156</span>
+                                              <span class="stat-exit">↓ 123</span>
+                                          </div>
+                                      </div>
+                                      <div class="detail-item">
+                                          <span class="detail-name">Portería Este</span>
+                                          <div class="detail-stats">
+                                              <span class="stat-entry">↑ 98</span>
+                                              <span class="stat-exit">↓ 87</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
