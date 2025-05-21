@@ -87,9 +87,16 @@ document.querySelectorAll('.nav-links a').forEach(link => {
         // Agregar clase active al enlace clickeado
         this.parentElement.classList.add('active');
 
-        // Ocultar todas las vistas
+        // Ocultar todas las vistas y limpiar contenido dinámico
         document.querySelectorAll('.view-section').forEach(section => {
             section.style.display = 'none';
+            // Limpiar cualquier contenido dinámico que pudiera haberse agregado
+            if (section.id !== 'inicio') {
+                const dynamicContent = section.querySelector('.visitors-view-custom');
+                if (dynamicContent) {
+                    dynamicContent.remove();
+                }
+            }
         });
 
         // Mostrar la vista correspondiente
@@ -97,6 +104,88 @@ document.querySelectorAll('.nav-links a').forEach(link => {
         const targetView = document.getElementById(targetId);
         if (targetView) {
             targetView.style.display = 'block';
+            
+            // Si es la vista de registro, asegurarse de que tenga la clase correcta y recrear el contenido
+            if (targetId === 'registro') {
+                targetView.className = 'view-section';
+                // Recrear el contenido de la vista de registro
+                const registroContent = `
+                    <div class="visitors-view-custom">
+                        <div class="visitors-header-custom">
+                            <div class="visitors-title-box">
+                                <span>REGISTRO DE VISITANTES</span>
+                            </div>
+                            <div class="search-bar-custom">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="Buscar visitante..." class="visitor-search-custom">
+                            </div>
+                        </div>
+                        <div class="visitors-main-content">
+                            <div class="visitors-list-card">
+                                <div class="visitor-card">
+                                    <div class="visitor-main-info">
+                                        <div class="visitor-name">Persona A</div>
+                                        <button class="add-btn"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                    <div class="visitor-extra-info" style="display:none;">
+                                        <div class="visitor-field"><b>Nombre:</b> <span class="visitor-nombre">Persona A</span></div>
+                                        <div class="visitor-field"><b>Cédula:</b> <span class="visitor-cedula">12345678</span></div>
+                                        <div class="visitor-field">
+                                            <b>Motivo:</b> <button class="motivo-visita-btn">Seleccionar motivo</button>
+                                            <span class="motivo-seleccionado"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="visitor-card">
+                                    <div class="visitor-main-info">
+                                        <div class="visitor-name">Persona B</div>
+                                        <button class="add-btn"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                    <div class="visitor-extra-info" style="display:none;">
+                                        <div class="visitor-field"><b>Nombre:</b> <span class="visitor-nombre">Persona B</span></div>
+                                        <div class="visitor-field"><b>Cédula:</b> <span class="visitor-cedula">87654321</span></div>
+                                        <div class="visitor-field">
+                                            <b>Motivo:</b> <button class="motivo-visita-btn">Seleccionar motivo</button>
+                                            <span class="motivo-seleccionado"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="visitor-card">
+                                    <div class="visitor-main-info">
+                                        <div class="visitor-name">Persona C</div>
+                                        <button class="add-btn"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                    <div class="visitor-extra-info" style="display:none;">
+                                        <div class="visitor-field"><b>Nombre:</b> <span class="visitor-nombre">Persona C</span></div>
+                                        <div class="visitor-field"><b>Cédula:</b> <span class="visitor-cedula">56789012</span></div>
+                                        <div class="visitor-field">
+                                            <b>Motivo:</b> <button class="motivo-visita-btn">Seleccionar motivo</button>
+                                            <span class="motivo-seleccionado"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="visitors-summary-card">
+                                <div class="summary-title">Visitantes en la instalación:</div>
+                                <div class="summary-number">50</div>
+                                <div class="summary-lugares">
+                                    <div class="lugares-title">Lugar más concurrido por los visitantes</div>
+                                    <div class="lugar-option active"><span class="radio"></span> Auditorio</div>
+                                    <div class="lugar-option"><span class="radio"></span> Porteria peatonal</div>
+                                    <div class="lugar-option"><span class="radio"></span> Cafeteria bloque 27</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="visitors-footer">
+                            <button class="add-visitor-btn"><i class="fas fa-user-plus"></i> Agregar visitante</button>
+                        </div>
+                    </div>
+                `;
+                targetView.innerHTML = registroContent;
+                
+                // Reinicializar los eventos para la vista de registro
+                initializeRegistroEvents();
+            }
         }
 
         // Actualizar el título de la página según la vista
@@ -297,6 +386,48 @@ function initializeEvents() {
             motivoModal.style.display = 'none';
         }
     });
+}
+
+// Función para inicializar eventos específicos de la vista de registro
+function initializeRegistroEvents() {
+    // Reinicializar eventos de los botones add-btn
+    document.querySelectorAll('.visitors-list-card .add-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const card = this.closest('.visitor-card');
+            const isExpanded = card.classList.contains('expanded');
+            // Cierra todas las tarjetas
+            document.querySelectorAll('.visitor-card.expanded').forEach(c => {
+                c.classList.remove('expanded');
+                c.querySelector('.visitor-extra-info').style.display = 'none';
+            });
+            // Si no estaba expandida, expande; si ya estaba, la deja cerrada
+            if (!isExpanded) {
+                card.classList.add('expanded');
+                card.querySelector('.visitor-extra-info').style.display = 'block';
+            }
+        });
+    });
+
+    // Reinicializar eventos de los botones de motivo de visita
+    document.querySelectorAll('.motivo-visita-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const motivoModal = document.getElementById('motivoModal');
+            motivoModal.style.display = 'flex';
+            window.motivoTarget = this; // Guardar referencia al botón actual
+        });
+    });
+
+    // Reinicializar el botón de agregar visitante
+    const footerAddVisitorBtn = document.querySelector('.visitors-footer .add-visitor-btn');
+    if (footerAddVisitorBtn) {
+        const visitorModal = document.getElementById('visitorModal');
+        footerAddVisitorBtn.addEventListener('click', () => {
+            if (visitorModal) {
+                visitorModal.style.display = 'flex';
+            }
+        });
+    }
 }
 
 // Función para mostrar detalles de la cámara
